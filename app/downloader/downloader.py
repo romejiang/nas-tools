@@ -361,6 +361,7 @@ class Downloader:
             config["filter_tags"] = config["tags"] + [PT_TAG]
         else:
             config["filter_tags"] = config["tags"]
+        # log.info('\n'.join(config["filter_tags"]))
         torrents = _client.get_remove_torrents(config=config)
         torrents.sort(key=lambda x: x.get("name"))
         return torrents
