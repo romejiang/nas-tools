@@ -7,13 +7,16 @@ RUN apk add --no-cache libffi-dev \
     && curl https://rclone.org/install.sh | bash \
     && if [ "$(uname -m)" = "x86_64" ]; then ARCH=amd64; elif [ "$(uname -m)" = "aarch64" ]; then ARCH=arm64; fi \
     && curl https://dl.min.io/client/mc/release/linux-${ARCH}/mc --create-dirs -o /usr/bin/mc \
-    && chmod +x /usr/bin/mc \
-    && pip install --upgrade pip setuptools wheel \
-    && pip install cython \
-    && pip install -r https://raw.githubusercontent.com/romejiang/nas-tools/master/requirements.txt \
-    && apk del libffi-dev \
+    && chmod +x /usr/bin/mc 
+
+RUN pip install --upgrade pip setuptools wheel --break-system-packages \
+    && pip install cython --break-system-packages \
+    && pip install -r https://raw.githubusercontent.com/romejiang/nas-tools/master/requirements.txt --break-system-packages \
     && npm install pm2 -g \
+    && apk del --purge libffi-dev gcc musl-dev libxml2-dev libxslt-dev \
+    && pip uninstall -y cython --break-system-packages \
     && rm -rf /tmp/* /root/.cache /var/cache/apk/*
+
 ENV LANG="C.UTF-8" \
     TZ="Asia/Shanghai" \
     NASTOOL_CONFIG="/config/config.yaml" \
