@@ -40,6 +40,7 @@ class BrushTask(object):
         self.message = Message()
         self.sites = Sites()
         self.filter = Filter()
+        self._torrents_cache = []
         # 移除现有任务
         try:
             if self._scheduler:
